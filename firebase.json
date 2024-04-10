@@ -8,7 +8,9 @@
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        "app"
+        "app",
+        "__init__.py",
+        "test"
       ]
     }
   ]
