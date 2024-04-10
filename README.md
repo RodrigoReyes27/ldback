@@ -1,17 +1,13 @@
 # LDBack
 
-npm install -g firebase
-npm install -g firebase-tools
+npm install
 
 Python 3.11 is needed
 
 # start development instance
 
-firebase emulators:start --only functions
+npx firebase emulators:start --only functions
 
 # run unittests from root directory
-
-python -m unittest ./functions/app/test test_create_account.py
-python -m unittest ./functions/app/test/test_delete_account.py
 
 python -m unittest
