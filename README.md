@@ -12,3 +12,6 @@ firebase emulators:start --only functions
 # run unittests from root directory
 
 python -m unittest ./functions/app/test test_create_account.py
+python -m unittest ./functions/app/test/test_delete_account.py
+
+python -m unittest
