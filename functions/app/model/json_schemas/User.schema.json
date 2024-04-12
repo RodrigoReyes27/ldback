@@ -1,0 +1,33 @@
+{
+  "properties": {
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "username": {
+      "maxLength": 30,
+      "minLength": 5,
+      "title": "Username",
+      "type": "string"
+    },
+    "email": {
+      "format": "email",
+      "title": "Email",
+      "type": "string"
+    },
+    "rootDirectoryId": {
+      "format": "uuid",
+      "title": "Rootdirectoryid",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "username",
+    "email",
+    "rootDirectoryId"
+  ],
+  "title": "User",
+  "type": "object"
+}
