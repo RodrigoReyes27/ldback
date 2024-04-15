@@ -26,7 +26,7 @@ def login_email_handle():
         "email": email, 
         "password": password
     }
-    auth_response = requests.post(f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_CONFIG["apiKey"]}", data=payload)
+    auth_response = requests.post(f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_CONFIG['apiKey']}", data=payload)
 
     if not auth_response.status_code == 200:
         return jsonify(msg=f"Incorrect Email or Password"), 401

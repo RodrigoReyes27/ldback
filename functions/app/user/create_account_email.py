@@ -29,7 +29,7 @@ def create_account_email_handle():
             "email": email, 
             "password": password
         }
-        auth_response = requests.post(f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_CONFIG["apiKey"]}", data=payload)
+        auth_response = requests.post(f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_CONFIG['apiKey']}", data=payload)
 
         auth_token = json.loads(auth_response.content)["idToken"]
         return jsonify(msg=auth_token)
