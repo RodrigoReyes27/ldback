@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-user_blueprint = Blueprint("documentos_blueprint", __name__)
+documentos_blueprint = Blueprint("documentos_blueprint", __name__)
 
 from .parse_pptx import *
 
