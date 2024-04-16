@@ -6,6 +6,8 @@ from google.cloud.storage import Bucket
 
 from application.persistence import IFileStorage, FileMimeType, mimetypes_to_extensions
 
+from .. import FIREBASE_APP, FIREBASE_CONFIG
+
 
 class FirebaseFileStorage(IFileStorage):
     def __init__(
@@ -57,3 +59,11 @@ class FirebaseFileStorage(IFileStorage):
         assert self._file_exists(file_url)
         filename = self._get_filename_from_url(file_url)
         self.bucket.blob(filename).delete()
+
+    @classmethod
+    def create_from_firebase_config(cls, base_directory: str) -> "FirebaseFileStorage":
+        return cls(
+            firebase_app=FIREBASE_APP,
+            firebase_bucket_name=FIREBASE_CONFIG["storageBucket"],  # type: ignore
+            base_directory=base_directory,
+        )
