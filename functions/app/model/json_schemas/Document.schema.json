@@ -1,0 +1,236 @@
+{
+  "$defs": {
+    "AuthorData": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "surnames": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Surnames",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "surnames"
+      ],
+      "title": "AuthorData",
+      "type": "object"
+    },
+    "BiblioGraphicInfo": {
+      "properties": {
+        "authors": {
+          "items": {
+            "$ref": "#/$defs/AuthorData"
+          },
+          "title": "Authors",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "publisher": {
+          "title": "Publisher",
+          "type": "string"
+        },
+        "publishmentDate": {
+          "format": "date",
+          "title": "Publishmentdate",
+          "type": "string"
+        }
+      },
+      "required": [
+        "authors",
+        "title",
+        "publisher",
+        "publishmentDate"
+      ],
+      "title": "BiblioGraphicInfo",
+      "type": "object"
+    },
+    "KeyConcept": {
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "relationships": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Relationships",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "relationships"
+      ],
+      "title": "KeyConcept",
+      "type": "object"
+    },
+    "Relationship": {
+      "properties": {
+        "fatherConceptId": {
+          "format": "uuid",
+          "title": "Fatherconceptid",
+          "type": "string"
+        },
+        "childConceptId": {
+          "format": "uuid",
+          "title": "Childconceptid",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fatherConceptId",
+        "childConceptId",
+        "description"
+      ],
+      "title": "Relationship",
+      "type": "object"
+    },
+    "Summary": {
+      "properties": {
+        "secctions": {
+          "items": {
+            "$ref": "#/$defs/SummarySection"
+          },
+          "title": "Secctions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "secctions"
+      ],
+      "title": "Summary",
+      "type": "object"
+    },
+    "SummarySection": {
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "body": {
+          "title": "Body",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "body"
+      ],
+      "title": "SummarySection",
+      "type": "object"
+    },
+    "UserPrivilegeLevelOnDocument": {
+      "enum": [
+        "READ_ONLY",
+        "READ_AND_WRITE"
+      ],
+      "title": "UserPrivilegeLevelOnDocument",
+      "type": "string"
+    },
+    "UserWithAccessData": {
+      "properties": {
+        "userId": {
+          "format": "uuid",
+          "title": "Userid",
+          "type": "string"
+        },
+        "privilegeLevel": {
+          "$ref": "#/$defs/UserPrivilegeLevelOnDocument"
+        }
+      },
+      "required": [
+        "userId",
+        "privilegeLevel"
+      ],
+      "title": "UserWithAccessData",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "ownerId": {
+      "format": "uuid",
+      "title": "Ownerid",
+      "type": "string"
+    },
+    "idRawDoc": {
+      "format": "uuid",
+      "title": "Idrawdoc",
+      "type": "string"
+    },
+    "parsedLLMInput": {
+      "title": "Parsedllminput",
+      "type": "string"
+    },
+    "usersWithAccess": {
+      "items": {
+        "$ref": "#/$defs/UserWithAccessData"
+      },
+      "title": "Userswithaccess",
+      "type": "array"
+    },
+    "biblioGraficInfo": {
+      "$ref": "#/$defs/BiblioGraphicInfo"
+    },
+    "summary": {
+      "$ref": "#/$defs/Summary"
+    },
+    "keyConcepts": {
+      "items": {
+        "$ref": "#/$defs/KeyConcept"
+      },
+      "title": "Keyconcepts",
+      "type": "array"
+    },
+    "relationships": {
+      "items": {
+        "$ref": "#/$defs/Relationship"
+      },
+      "title": "Relationships",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "ownerId",
+    "idRawDoc",
+    "parsedLLMInput",
+    "usersWithAccess",
+    "biblioGraficInfo",
+    "summary",
+    "keyConcepts",
+    "relationships"
+  ],
+  "title": "Document",
+  "type": "object"
+}

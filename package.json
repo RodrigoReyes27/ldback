@@ -1,0 +1,15 @@
+{
+  "name": "ldback",
+  "version": "1.0.0",
+  "description": "backend of the lobsters",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^10.10.0",
+    "firebase-tools": "^13.7.1"
+  }
+}
