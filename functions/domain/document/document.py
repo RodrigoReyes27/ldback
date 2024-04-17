@@ -65,14 +65,16 @@ class Relationship(BaseModel):
 
 class Document(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
-    id: str  = Field()
+    id: str = Field()
     owner_id: str = Field(alias="ownerId")
     id_raw_doc: str = Field(alias="idRawDoc")
     name: str = Field(alias="name")
     extension: str = Field(alias="extension")
     parsed_llm_input: Optional[List[str]] = Field(alias="parsedLLMInput")
     users_with_access: List[UserWithAccessData] = Field(alias="usersWithAccess")
-    bibliographic_info: Optional[BiblioGraphicInfo] = Field(None, alias="biblioGraficInfo")
+    bibliographic_info: Optional[BiblioGraphicInfo] = Field(
+        None, alias="biblioGraficInfo"
+    )
     summary: Optional[Summary] = None
     key_concepts: Optional[List[KeyConcept]] = Field(None, alias="keyConcepts")
     relationships: Optional[List[Relationship]] = None
