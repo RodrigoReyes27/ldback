@@ -70,7 +70,7 @@ class FirebaseDocumentRepo(IDocumentRepo):
         # Se serializa todo el documento
         result = doc.to_dict()
 
-        subcollections = ["ParsedLLMInput"]
+        subcollections = ["ParsedLLMInput", "Summary", "KeyConcepts"]
 
         subcollections_data = {}
 
@@ -84,6 +84,8 @@ class FirebaseDocumentRepo(IDocumentRepo):
             ]
 
         result["parsedLLMInput"] = subcollections_data["ParsedLLMInput"][0]["content"]
+        result["summary"] = subcollections_data["Summary"][0]
+        result["keyConcepts"] = subcollections_data["KeyConcepts"]
         return Document(**result)
 
     def update(self, item: Document):
