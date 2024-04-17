@@ -52,6 +52,7 @@ class OpenAITextInsightExtractor(ITextInsightExtractor):
         please, give the bibliographic info of the text in the form of a json object according to the following json schema  {bibliographic_info_json_schema}. \n
         If you cannot find any author in text please refrain from giving any authors, just set the "authors" parameter to an empty array\n.
         If you cannot find a publisher, set the parameter "publisher" to "Unknown". 
+        If you cannot find a publishment date, set the parameter "publishmentDate" to null.
         The title of the text MUST be within the document, if you cannot find a title within the document, then just set the "title" parameter to "Unknown".
         """
         raw_bibliographic_info_obj = self._get_json_response(prompt)
