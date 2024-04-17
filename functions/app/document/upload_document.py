@@ -10,6 +10,8 @@ from infrastructure.firebase.persistence.repos.document_repo import \
     FirebaseDocumentRepo
 from werkzeug.utils import secure_filename
 
+from infrastructure.parser.docx_parser import DOCXParser
+
 from . import document_blueprint
 
 
@@ -43,13 +45,15 @@ def upload_document_handle():
     file.save(payload)
     # Aqui esta la magia
     storage = FirebaseFileStorage.create_from_firebase_config("documents")
-
+    parsed_result = []
     if type_file == ".pdf":
         mimetype = FileMimeType.PDF
     elif type_file == ".doc":
         mimetype = FileMimeType.DOC
     elif type_file == ".docx":
         mimetype = FileMimeType.DOCX
+        parse = DOCXParser()
+        parsed_result = parse.parse(payload).text
     elif type_file == ".ppt":
         mimetype = FileMimeType.PPT
     elif type_file == ".pptx":
@@ -67,7 +71,7 @@ def upload_document_handle():
         idRawDoc=url,
         name=filename,
         extension=type_file,
-        parsedLLMInput="",
+        parsedLLMInput=parsed_result,
         usersWithAccess=[],
         biblioGraphicInfo=None,
         summary=None,

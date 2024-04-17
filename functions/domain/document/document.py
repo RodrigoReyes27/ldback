@@ -70,7 +70,7 @@ class Document(BaseModel):
     id_raw_doc: str = Field(alias="idRawDoc")
     name: str = Field(alias="name")
     extension: str = Field(alias="extension")
-    parsed_llm_input: str = Field(alias="parsedLLMInput")
+    parsed_llm_input: Optional[List[str]] = Field(alias="parsedLLMInput")
     users_with_access: List[UserWithAccessData] = Field(alias="usersWithAccess")
     bibliographic_info: Optional[BiblioGraphicInfo] = Field(None, alias="biblioGraficInfo")
     summary: Optional[Summary] = None

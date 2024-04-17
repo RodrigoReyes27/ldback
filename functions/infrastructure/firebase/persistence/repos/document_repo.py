@@ -19,7 +19,7 @@ class FirebaseDocumentRepo(IDocumentRepo):
             "summary",
             "key_concepts",
             "relationships",
-            "parsed_llm_input",
+            "parsedLLMInput",
         }
 
         # Se remueven las colecciones
