@@ -30,7 +30,7 @@ class BiblioGraphicInfo(BaseModel):
     authors: List[AuthorData] = Field()
     title: str = Field()
     publisher: str = Field()
-    publishment_date: date = Field(alias="publishmentDate")
+    publishment_date: Optional[date] = Field(alias="publishmentDate")
 
 
 class SummarySection(BaseModel):
@@ -65,14 +65,22 @@ class Relationship(BaseModel):
 
 class Document(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
-    id: str  = Field()
+    id: str = Field()
     owner_id: str = Field(alias="ownerId")
     id_raw_doc: str = Field(alias="idRawDoc")
     name: str = Field(alias="name")
     extension: str = Field(alias="extension")
+<<<<<<< HEAD
     parsed_llm_input: Optional[List[str]] = Field(None,alias="parsedLLMInput")
     users_with_access: Optional[List[UserWithAccessData]] = Field(None,alias="usersWithAccess")
     bibliographic_info: Optional[BiblioGraphicInfo] = Field(None, alias="biblioGraficInfo")
+=======
+    parsed_llm_input: Optional[List[str]] = Field(alias="parsedLLMInput")
+    users_with_access: List[UserWithAccessData] = Field(alias="usersWithAccess")
+    bibliographic_info: Optional[BiblioGraphicInfo] = Field(
+        None, alias="biblioGraficInfo"
+    )
+>>>>>>> aff800d75f301e07525211a2d3502eb7977b7753
     summary: Optional[Summary] = None
     key_concepts: Optional[List[KeyConcept]] = Field(None, alias="keyConcepts")
     relationships: Optional[List[Relationship]] = None

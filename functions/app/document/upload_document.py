@@ -3,14 +3,17 @@ import uuid
 from io import BytesIO
 
 from domain.document import Document
+from domain.document.document import KeyConcept
 from flask import jsonify, request
-from infrastructure.firebase.persistence import (FileMimeType,
-                                                 FirebaseFileStorage)
-from infrastructure.firebase.persistence.repos.document_repo import \
-    FirebaseDocumentRepo
+from infrastructure.firebase.persistence import FileMimeType, FirebaseFileStorage
+from infrastructure.firebase.persistence.repos.document_repo import FirebaseDocumentRepo
 from werkzeug.utils import secure_filename
 
 from infrastructure.parser.docx_parser import DOCXParser
+from infrastructure.parser.pdf_parser import PDFParser
+from infrastructure.parser.pptx_parser import PPTXParser
+
+from infrastructure.openai.text_insight_extractor import OpenAITextInsightExtractor
 
 from . import document_blueprint
 
@@ -19,8 +22,7 @@ def allowed_file(filename):
     allowed_extensions = {".pdf", ".doc", ".docx", ".ppt", ".pptx"}
     # Revisa que haya un punto en el archivo y tambien que sea un archivo permitido
     return (
-        "." in filename and os.path.splitext(
-            filename)[1].lower() in allowed_extensions
+        "." in filename and os.path.splitext(filename)[1].lower() in allowed_extensions
     )
 
 
@@ -32,7 +34,7 @@ def upload_document_handle():
         return jsonify(msg="No selected file"), 400
 
     # Se saca el nombre del archivo
-    filename = secure_filename(file.filename)
+    filename = secure_filename(file.filename)  # type: ignore
 
     if not allowed_file(filename):
         return jsonify(msg="Archivo no permitido"), 400
@@ -48,6 +50,8 @@ def upload_document_handle():
     parsed_result = []
     if type_file == ".pdf":
         mimetype = FileMimeType.PDF
+        parse = PDFParser()
+        parsed_result = parse.parse(payload).text
     elif type_file == ".doc":
         mimetype = FileMimeType.DOC
     elif type_file == ".docx":
@@ -58,6 +62,17 @@ def upload_document_handle():
         mimetype = FileMimeType.PPT
     elif type_file == ".pptx":
         mimetype = FileMimeType.PPTX
+        parse = PPTXParser()
+        parsed_result = parse.parse(payload).text
+
+    # generate insights from LLM
+
+    text_insight_extractor = OpenAITextInsightExtractor(os.environ["OPENAI_API_KEY"])
+    text_insight = text_insight_extractor.extract_insight("\n".join(parsed_result))
+    key_concepts = [
+        KeyConcept(id=uuid.uuid1(), name=keyc, description=keyc, relationships=[])
+        for keyc in text_insight.key_concepts
+    ]
 
     # Se agrega el archivo
     url = storage.add(payload, mimetype)
@@ -73,16 +88,21 @@ def upload_document_handle():
         extension=type_file,
         parsedLLMInput=parsed_result,
         usersWithAccess=[],
-        biblioGraphicInfo=None,
-        summary=None,
-        keyConcepts=[],
+        biblioGraficInfo=text_insight.bibliografic_info,
+        summary=text_insight.summary,
+        keyConcepts=key_concepts,
         relationships=[],
     )
-    
+
     repo = FirebaseDocumentRepo()
 
     repo.add(document)
 
     return jsonify(
-        {"message": "File uploaded successfully", "userId": user_id, "url": url}
+        {
+            "message": "File uploaded successfully",
+            "userId": user_id,
+            "url": url,
+            "docId": str(new_uuid),
+        }
     )
