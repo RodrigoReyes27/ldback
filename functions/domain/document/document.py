@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List, Optional
 from enum import Enum
-from uuid import UUID
+
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -14,7 +14,7 @@ class UserPrivilegeLevelOnDocument(Enum):
 class UserWithAccessData(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
 
-    user_id: UUID = Field(alias="userId")
+    user_id: str = Field(alias="userId")
     privilege_level: UserPrivilegeLevelOnDocument = Field(alias="privilegeLevel")
 
 
@@ -49,17 +49,17 @@ class Summary(BaseModel):
 class KeyConcept(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
 
-    id: UUID = Field()
+    id: str = Field()
     name: str = Field()
     description: str = Field()
-    relationships: List[UUID] = Field()
+    relationships: List[str] = Field()
 
 
 class Relationship(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
 
-    father_concept_id: UUID = Field(alias="fatherConceptId")
-    child_concept_id: UUID = Field(alias="childConceptId")
+    father_concept_id: str = Field(alias="fatherConceptId")
+    child_concept_id: str = Field(alias="childConceptId")
     description: str = Field()
 
 

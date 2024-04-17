@@ -1,6 +1,5 @@
 import json
 from typing import List
-import logging
 
 from openai import OpenAI
 from domain.document.document import SummarySection
@@ -56,7 +55,6 @@ class OpenAITextInsightExtractor(ITextInsightExtractor):
         The title of the text MUST be within the document, if you cannot find a title within the document, then just set the "title" parameter to "Unknown".
         """
         raw_bibliographic_info_obj = self._get_json_response(prompt)
-        print(json.dumps(raw_bibliographic_info_obj, indent=2))
         return BiblioGraphicInfo.model_validate(raw_bibliographic_info_obj)
 
     def _extract_core_concepts(self, text_body: str) -> List[str]:

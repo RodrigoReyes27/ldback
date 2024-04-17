@@ -70,7 +70,7 @@ def upload_document_handle():
     text_insight_extractor = OpenAITextInsightExtractor(os.environ["OPENAI_API_KEY"])
     text_insight = text_insight_extractor.extract_insight("\n".join(parsed_result))
     key_concepts = [
-        KeyConcept(id=uuid.uuid1(), name=keyc, description=keyc, relationships=[])
+        KeyConcept(id=str(uuid.uuid1()), name=keyc, description=keyc, relationships=[])
         for keyc in text_insight.key_concepts
     ]
 
