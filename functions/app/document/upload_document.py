@@ -11,7 +11,7 @@ from infrastructure.firebase.persistence.repos.document_repo import \
 from werkzeug.utils import secure_filename
 
 from infrastructure.parser.docx_parser import DOCXParser
-
+from infrastructure.parser.pptx_parser import PPTXParser
 from . import document_blueprint
 
 
@@ -58,6 +58,8 @@ def upload_document_handle():
         mimetype = FileMimeType.PPT
     elif type_file == ".pptx":
         mimetype = FileMimeType.PPTX
+        parse = PPTXParser()
+        parsed_result = parse.parse(payload).text
 
     # Se agrega el archivo
     url = storage.add(payload, mimetype)
