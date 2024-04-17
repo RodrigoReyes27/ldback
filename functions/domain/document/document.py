@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List
+from typing import List, Optional
 from enum import Enum
 from uuid import UUID
 
@@ -65,13 +65,14 @@ class Relationship(BaseModel):
 
 class Document(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
-
-    id: UUID = Field()
-    owner_id: UUID = Field(alias="ownerId")
-    id_raw_doc: UUID = Field(alias="idRawDoc")
-    parsed_llm_input: str = Field(alias="parsedLLMInput")
+    id: str  = Field()
+    owner_id: str = Field(alias="ownerId")
+    id_raw_doc: str = Field(alias="idRawDoc")
+    name: str = Field(alias="name")
+    extension: str = Field(alias="extension")
+    parsed_llm_input: Optional[List[str]] = Field(alias="parsedLLMInput")
     users_with_access: List[UserWithAccessData] = Field(alias="usersWithAccess")
-    bibliographic_info: BiblioGraphicInfo = Field(alias="biblioGraficInfo")
-    summary: Summary = Field()
-    key_concepts: List[KeyConcept] = Field(alias="keyConcepts")
-    relationships: List[Relationship] = Field()
+    bibliographic_info: Optional[BiblioGraphicInfo] = Field(None, alias="biblioGraficInfo")
+    summary: Optional[Summary] = None
+    key_concepts: Optional[List[KeyConcept]] = Field(None, alias="keyConcepts")
+    relationships: Optional[List[Relationship]] = None
