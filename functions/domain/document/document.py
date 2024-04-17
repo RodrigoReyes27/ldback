@@ -30,7 +30,7 @@ class BiblioGraphicInfo(BaseModel):
     authors: List[AuthorData] = Field()
     title: str = Field()
     publisher: str = Field()
-    publishment_date: date = Field(alias="publishmentDate")
+    publishment_date: Optional[date] = Field(alias="publishmentDate")
 
 
 class SummarySection(BaseModel):
