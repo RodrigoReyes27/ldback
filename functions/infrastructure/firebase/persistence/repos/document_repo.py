@@ -64,10 +64,27 @@ class FirebaseDocumentRepo(IDocumentRepo):
     def get(self, id: str):
         doc_ref = self.collection.document(id)
         doc = doc_ref.get()
-        if doc.exists:
-            return Document(**doc.to_dict())
-        else:
+        if not doc.exists:
             return None
+
+        # Se serializa todo el documento
+        result = doc.to_dict()
+
+        subcollections = ["ParsedLLMInput"]
+
+        subcollections_data = {}
+
+        for subcollection in subcollections:
+            subcollection_ref = doc_ref.collection(subcollection)
+            subdocs = subcollection_ref.stream()
+
+            subcollections_data[subcollection] = {}
+            subcollections_data[subcollection] = [
+                subdoc.to_dict() for subdoc in subdocs
+            ]
+
+        result["parsedLLMInput"] = subcollections_data["ParsedLLMInput"][0]["content"]
+        return Document(**result)
 
     def update(self, item: Document):
         pass
