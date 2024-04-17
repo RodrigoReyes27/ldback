@@ -1,3 +1,4 @@
+from typing import Any
 from typing import Tuple
 from io import BytesIO
 from abc import ABC, abstractmethod
@@ -9,14 +10,14 @@ class DocumentImage(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     name: str = Field()
-    data: BytesIO = Field()
+    data: Any = Field()
 
 
 class ParsingResult(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     text: str = Field()
-    images: Tuple[DocumentImage] = Field()
+    images: Tuple["DocumentImage"] = Field()
 
 
 class IParser(ABC):

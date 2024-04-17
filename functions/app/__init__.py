@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from firebase_admin import credentials, initialize_app
 from flask_cors import CORS
 
+import infrastructure.parser.docx_parser
 
 load_dotenv()
 
