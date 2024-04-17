@@ -11,6 +11,7 @@ from infrastructure.firebase.persistence.repos.document_repo import \
 from werkzeug.utils import secure_filename
 
 from infrastructure.parser.docx_parser import DOCXParser
+from infrastructure.parser.pdf_parser import PDFParser
 
 from . import document_blueprint
 
@@ -48,6 +49,8 @@ def upload_document_handle():
     parsed_result = []
     if type_file == ".pdf":
         mimetype = FileMimeType.PDF
+        parse = PDFParser()
+        parsed_result = parse.parse(payload).text
     elif type_file == ".doc":
         mimetype = FileMimeType.DOC
     elif type_file == ".docx":
