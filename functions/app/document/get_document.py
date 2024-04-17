@@ -1,8 +1,7 @@
 import json
 
 from flask import jsonify
-from infrastructure.firebase.persistence.repos.document_repo import \
-    FirebaseDocumentRepo
+from infrastructure.firebase.persistence.repos.document_repo import FirebaseDocumentRepo
 
 from . import document_blueprint
 
@@ -20,6 +19,6 @@ def get_document_handle(id):
 
     if document:
         # Document found, return it with status 200
-        return jsonify(json.dumps(document.dict())), 200
+        return jsonify(document.dict()), 200
     else:
         return jsonify({"error": "Document not found"}), 400
