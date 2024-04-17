@@ -3,6 +3,7 @@ from firebase_admin import auth, firestore
 from firebase_admin.exceptions import FirebaseError
 import requests
 import json
+import uuid
 
 from . import user_blueprint
 from infrastructure.firebase import FIREBASE_CONFIG
