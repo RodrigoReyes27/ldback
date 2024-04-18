@@ -9,9 +9,11 @@
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        "app",
-        "__init__.py",
-        "test"
+        "test",
+        ".gitignore",
+        "dev_app.py",
+        "test.py",
+        ".env"
       ]
     }
   ],
