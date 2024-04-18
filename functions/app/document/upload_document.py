@@ -88,12 +88,12 @@ def upload_document_handle():
         extension=type_file,
         parsedLLMInput=parsed_result,
         usersWithAccess=[],
-        biblioGraficInfo=text_insight.bibliografic_info,
+        biblioGraficInfo=None,   ##Error, esto no funciona con docx asi que esta desactivado
         summary=text_insight.summary,
         keyConcepts=key_concepts,
         relationships=[],
     )
-
+    
     repo = FirebaseDocumentRepo()
 
     repo.add(document)
