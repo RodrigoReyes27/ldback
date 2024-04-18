@@ -11,6 +11,8 @@ firebase-debug.*.log*
 .firebase/
 
 # Firebase config
+functions/app/cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
+functions/infrastructure/firebase/cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
 
 # Uncomment this if you'd like others to create their own Firebase project.
 # For a team working on the same Firebase project(s), it is recommended to leave
@@ -68,3 +70,6 @@ node_modules/
 env/
 venv/
 __pycache__/
+
+cert/
+cert/*
