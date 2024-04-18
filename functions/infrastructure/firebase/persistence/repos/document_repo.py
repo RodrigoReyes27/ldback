@@ -17,7 +17,7 @@ class FirebaseDocumentRepo(IDocumentRepo):
         # Se especifican las colleciones dentro de documento
         fields_to_exclude_as_collections = {
             "summary",
-            "key_concepts",
+            "keyConcepts",
             "relationships",
             "parsedLLMInput",
         }
