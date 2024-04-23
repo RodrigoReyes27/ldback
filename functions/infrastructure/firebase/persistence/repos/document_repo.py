@@ -91,3 +91,44 @@ class FirebaseDocumentRepo(IDocumentRepo):
 
     def update(self, item: Document):
         pass
+
+    def delete(self, id: str):
+
+        doc_ref = self.collection.document(id)
+        doc = doc_ref.get()
+        if not doc.exists:
+            return None
+
+        subcollections = ["ParsedLLMInput", "Summary", "KeyConcepts"]
+
+
+        try:
+            # Start a batch for batch deletion
+            batch = firestore.client().batch()
+
+            # Delete documents in subcollections
+            for subcollection_name in subcollections:
+                subcollection_ref = doc_ref.collection(subcollection_name)
+                subdocs = subcollection_ref.stream()
+
+                for subdoc in subdocs:
+                    batch.delete(subdoc.reference)  # Add to batch
+
+            # Delete the parent document
+            batch.delete(doc_ref)  # Add to batch
+
+            # Commit the batch to apply all deletions
+            batch.commit()
+
+            print(f"Successfully deleted document {id} and its subcollections.")
+            return 200
+
+        except Exception as e:
+            print(f"Error deleting document {id}: {e}")
+            return 400
+            
+            
+
+            
+        
+        
