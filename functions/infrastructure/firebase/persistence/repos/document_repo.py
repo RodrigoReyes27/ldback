@@ -48,6 +48,7 @@ class FirebaseDocumentRepo(IDocumentRepo):
             summary_ref.set(item.summary.dict(by_alias=True))
 
         # Se maneja 'key_concepts' como una subcolección
+        # TO DO quitar doble insercion de KeyConcepts
         if item.key_concepts:
             concepts_ref = doc_ref.collection("KeyConcepts")
             for concept in item.key_concepts:
