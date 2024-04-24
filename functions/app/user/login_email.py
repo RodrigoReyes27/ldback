@@ -34,13 +34,14 @@ def login_email_handle():
     firestore_client = firestore.client()
     users_ref = firestore_client.collection("Users")
     user_info = users_ref.document(auth_response["localId"]).get().to_dict()
-    
+
     auth_info = {
         "token": auth_response["idToken"],
+        "refreshToken": auth_response["refreshToken"],
         "email": email,
         "uid": auth_response["localId"],
         "name": user_info["name"],
         "lastname": user_info["lastname"],
-        "root_directory_id": user_info["root_directory_id"],
+        "rootDirectoryId": user_info["root_directory_id"],
     }
     return jsonify(auth_info)

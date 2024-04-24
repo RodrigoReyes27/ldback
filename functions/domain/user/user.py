@@ -7,7 +7,8 @@ class User(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
 
     id: UUID = Field(frozen=True)
-    username: str = Field(min_length=5, max_length=30)
+    name: str = Field(min_length=4, max_length=15)
+    lastname: str = Field(min_length=4, max_length=15)
     email: EmailStr = Field()
     password: str = Field()
     root_directory_id: UUID = Field(alias="rootDirectoryId")
