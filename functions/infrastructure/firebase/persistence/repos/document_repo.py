@@ -121,11 +121,8 @@ class FirebaseDocumentRepo(IDocumentRepo):
             batch.commit()
 
             print(f"Successfully deleted document {id} and its subcollections.")
-            return 200
-
         except Exception as e:
             print(f"Error deleting document {id}: {e}")
-            return 400
             
             
 
