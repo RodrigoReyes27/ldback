@@ -2,6 +2,7 @@ from flask import jsonify, request
 from firebase_admin import firestore
 import requests
 import json
+
 from . import user_blueprint
 from infrastructure.firebase import FIREBASE_CONFIG
 

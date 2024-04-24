@@ -15,11 +15,12 @@ class User(BaseModel):
 
     @classmethod
     def create_new(
-        cls, username: str, email: EmailStr, password: str, root_directory_id: UUID
+        cls, name: str, lastname:str, email: EmailStr, password: str, root_directory_id: UUID
     ) -> "User":
         return cls(
             id=uuid1(),
-            username=username,
+            name=name,
+            lastname=lastname,
             email=email,
             password=password,
             rootDirectoryId=root_directory_id,

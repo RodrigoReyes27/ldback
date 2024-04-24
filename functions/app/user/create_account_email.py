@@ -69,6 +69,7 @@ def create_account_email_handle():
 
         auth_info = {
             "token": auth_response["idToken"],
+            "refreshToken": auth_response["refreshToken"],
             "email": email,
             "uid": auth_response["localId"],
             "name": name,
