@@ -88,6 +88,14 @@ class FirebaseDocumentRepo(IDocumentRepo):
         result["summary"] = subcollections_data["Summary"][0]
         result["keyConcepts"] = subcollections_data["KeyConcepts"]
         return Document(**result)
+    
+    def rename(self, id: str, new_name: str):
+        doc_ref = self.collection.document(id)
+        doc = doc_ref.get()
+        if not doc.exists:
+            return None
+        doc_ref.update({"name": new_name})
+        print(f"Document renamed succesfully: {new_name}")
 
     def update(self, item: Document):
         pass

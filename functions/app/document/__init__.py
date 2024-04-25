@@ -7,3 +7,4 @@ from .upload_document import *
 from .get_document import *
 from .get_documents import *
 from .delete_document import *
+from .rename_document import *
