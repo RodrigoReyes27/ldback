@@ -12,3 +12,6 @@ class IDocumentRepo(ABC):
 
     @abstractmethod
     def update(self, item: Document): ...
+
+    @abstractmethod
+    def delete(self, id: str): ...

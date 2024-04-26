@@ -48,6 +48,7 @@ class FirebaseDocumentRepo(IDocumentRepo):
             summary_ref.set(item.summary.dict(by_alias=True))
 
         # Se maneja 'key_concepts' como una subcolección
+        # TO DO quitar doble insercion de KeyConcepts
         if item.key_concepts:
             concepts_ref = doc_ref.collection("KeyConcepts")
             for concept in item.key_concepts:
@@ -87,6 +88,52 @@ class FirebaseDocumentRepo(IDocumentRepo):
         result["summary"] = subcollections_data["Summary"][0]
         result["keyConcepts"] = subcollections_data["KeyConcepts"]
         return Document(**result)
+    
+    def rename(self, id: str, new_name: str):
+        doc_ref = self.collection.document(id)
+        doc = doc_ref.get()
+        if not doc.exists:
+            return None
+        doc_ref.update({"name": new_name})
+        print(f"Document renamed succesfully: {new_name}")
 
     def update(self, item: Document):
         pass
+
+    def delete(self, id: str):
+
+        doc_ref = self.collection.document(id)
+        doc = doc_ref.get()
+        if not doc.exists:
+            return None
+
+        subcollections = ["ParsedLLMInput", "Summary", "KeyConcepts"]
+
+
+        try:
+            # Start a batch for batch deletion
+            batch = firestore.client().batch()
+
+            # Delete documents in subcollections
+            for subcollection_name in subcollections:
+                subcollection_ref = doc_ref.collection(subcollection_name)
+                subdocs = subcollection_ref.stream()
+
+                for subdoc in subdocs:
+                    batch.delete(subdoc.reference)  # Add to batch
+
+            # Delete the parent document
+            batch.delete(doc_ref)  # Add to batch
+
+            # Commit the batch to apply all deletions
+            batch.commit()
+
+            print(f"Successfully deleted document {id} and its subcollections.")
+        except Exception as e:
+            print(f"Error deleting document {id}: {e}")
+            
+            
+
+            
+        
+        
