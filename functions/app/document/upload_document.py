@@ -100,7 +100,7 @@ def upload_document_handle():
 
     return jsonify(
         {
-            "message": "File uploaded successfully",
+            "msg": "File uploaded successfully",
             "userId": user_id,
             "url": url,
             "docId": str(new_uuid),
