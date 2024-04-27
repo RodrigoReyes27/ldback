@@ -1,42 +1,40 @@
-name: Deploy to Firebase Functions on PR
+name: Deploy to Firebase Functions on merge
 "on":
   push:
     branches:
       - main
-env:
-  CI: false
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
-      - name: Download node dependencies
-        run: npm install
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.7.0
 
-      - name: Create python venv
+      - name: Create SA key
+        run: echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $HOME/functions/cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
+
+      - name: Deploy Cloud Functions
         working-directory: functions
-        run: python -m venv venv
-
-      - name: Activate python venv
-        working-directory: functions
-        run: source venv/bin/activate
-
-      - name: Download python dependencies
-        working-directory: functions
-        run: pip install -r requirements.txt
-
-      - name: Deploy
-        run: npx firebase-tools deploy
-        env:
-          FIREBASE_TOKEN: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          API_KEY: ${{ secrets.API_KEY }}
-          AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          PROJECT_ID: ${{ secrets.PROJECT_ID }}
-          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
-          APP_ID: ${{ secrets.APP_ID }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python3.12 -m venv venv
+          . venv/bin/activate
+          npx firebase-tools --version
+          python3.12 -m pip install -r requirements.txt
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/functions/cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
+          export API_KEY={{ secrets.API_KEY }}
+          export AUTH_DOMAIN={{ secrets.AUTH_DOMAIN }}
+          export DATABASE_URL={{ secrets.DATABASE_URL }}
+          export PROJECT_ID={{ secrets.PROJECT_ID }}
+          export STORAGE_BUCKET={{ secrets.STORAGE_BUCKET }}
+          export APP_ID={{ secrets.APP_ID }}
+          export OPENAI_API_KEY={{ secrets.OPENAI_API_KEY }}
+          npx firebase-tools deploy --only functions --debug
