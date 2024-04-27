@@ -31,11 +31,12 @@ jobs:
           npx firebase-tools --version
           python3.12 -m pip install -r requirements.txt
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/functions/cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
-          export API_KEY={{ secrets.API_KEY }}
-          export AUTH_DOMAIN={{ secrets.AUTH_DOMAIN }}
-          export DATABASE_URL={{ secrets.DATABASE_URL }}
-          export PROJECT_ID={{ secrets.PROJECT_ID }}
-          export STORAGE_BUCKET={{ secrets.STORAGE_BUCKET }}
-          export APP_ID={{ secrets.APP_ID }}
-          export OPENAI_API_KEY={{ secrets.OPENAI_API_KEY }}
           npx firebase-tools deploy --only functions --debug
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+          APP_ID: ${{ secrets.APP_ID }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
