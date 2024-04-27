@@ -21,7 +21,7 @@ jobs:
 
       - name: Create SA key
         working-directory: functions
-        run: mkidr cert && echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
+        run: mkdir cert && echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
 
       - name: Deploy Cloud Functions
         working-directory: functions
