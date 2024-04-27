@@ -5,15 +5,17 @@ import requests
 import json
 import uuid
 
-from . import user_blueprint
+from app.middleware.decorators import exclude_verify_token
 from infrastructure.firebase import FIREBASE_CONFIG
+
+from . import user_blueprint
 
 
 @user_blueprint.route("/create_account_email", methods=["POST"])
+@exclude_verify_token
 def create_account_email_handle():
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json()
+    if not data:
         return jsonify(msg=f"Email, Password, Name and Lastname must be set"), 400
 
     email: str
@@ -70,11 +72,9 @@ def create_account_email_handle():
         auth_info = {
             "token": auth_response["idToken"],
             "refreshToken": auth_response["refreshToken"],
-            "email": email,
-            "uid": auth_response["localId"],
             "name": name,
             "lastname": lastname,
-            "root_directory_id": root_directory_id
+            "rootDirectoryId": root_directory_id
         }
         return jsonify(auth_info)
     except ValueError:

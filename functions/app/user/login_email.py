@@ -3,15 +3,17 @@ from firebase_admin import firestore
 import requests
 import json
 
-from . import user_blueprint
+from app.middleware.decorators import exclude_verify_token
 from infrastructure.firebase import FIREBASE_CONFIG
+
+from . import user_blueprint
 
 
 @user_blueprint.route("/login_email", methods=["POST"])
+@exclude_verify_token
 def login_email_handle():
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json()
+    if not data:
         return jsonify(msg=f"Email and Password must be set"), 400
 
     email: str
@@ -39,8 +41,6 @@ def login_email_handle():
     auth_info = {
         "token": auth_response["idToken"],
         "refreshToken": auth_response["refreshToken"],
-        "email": email,
-        "uid": auth_response["localId"],
         "name": user_info["name"],
         "lastname": user_info["lastname"],
         "rootDirectoryId": user_info["root_directory_id"],

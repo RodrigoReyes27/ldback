@@ -1,16 +1,18 @@
 from flask import jsonify, request
 import requests
 import json
+
+from app.middleware.decorators import exclude_verify_token
 from infrastructure.firebase import FIREBASE_CONFIG
 
 from . import user_blueprint
 
 
 @user_blueprint.route("/refresh-token", methods=["POST"])
+@exclude_verify_token
 def refresh_token_handle():
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json()
+    if not data:
         return jsonify(msg=f"Refresh token must be set"), 400
 
     refresh_token: str
