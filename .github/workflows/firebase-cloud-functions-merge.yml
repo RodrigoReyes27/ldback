@@ -21,13 +21,13 @@ jobs:
         working-directory: functions
         run: python -m venv venv
 
-      - name: Download python dependencies
-        working-directory: functions
-        run: pip install -r requirements.txt
-
       - name: Activate python venv
         working-directory: functions
         run: source venv/bin/activate
+
+      - name: Download python dependencies
+        working-directory: functions
+        run: pip install -r requirements.txt
 
       - name: Deploy
         run: npx firebase-tools deploy
