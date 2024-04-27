@@ -12,7 +12,7 @@ def verify_jwt():
     if request.endpoint in current_app.view_functions:
         view_func = current_app.view_functions[request.endpoint]
         verify_jwt_middleware = not hasattr(view_func, '_exclude_verify_token')
-    if not verify_jwt_middleware: return
+    if not verify_jwt_middleware or request.method == "OPTIONS": return
 
     auth_header = request.headers.get('Authorization')    
     if not auth_header:
