@@ -23,16 +23,25 @@ jobs:
         working-directory: functions
         run: mkdir cert && echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
 
-      - name: Deploy Cloud Functions
+      - name: Download node dependencies
+        run: npm install
+
+      - name: Create python venv
         working-directory: functions
-        run: |
-          python3.12 -m venv venv
-          . venv/bin/activate
-          npx firebase-tools --version
-          python3.12 -m pip install -r requirements.txt
-          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/functions/cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
-          npx firebase-tools deploy --only functions --debug
+        run: python3.12 -m venv venv
+
+      - name: Activate python venv
+        working-directory: functions
+        run: . venv/bin/activate
+
+      - name: Download python dependencies
+        working-directory: functions
+        run: python3.12 -m pip install -r requirements.txt
+
+      - name: Deploy
+        run: npx firebase-tools deploy
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           API_KEY: ${{ secrets.API_KEY }}
           AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
