@@ -14,17 +14,20 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Download dependencies
-        working-directory: functions
+      - name: Download node dependencies
         run: npm install
 
       - name: Create python venv
         working-directory: functions
         run: python -m venv venv
 
-      - name: Install python dependencies
+      - name: Download python dependencies
         working-directory: functions
         run: pip install -r requirements.txt
+
+      - name: Activate python venv
+        working-directory: functions
+        run: source venv/bin/activate
 
       - name: Deploy
         run: npx firebase-tools deploy
