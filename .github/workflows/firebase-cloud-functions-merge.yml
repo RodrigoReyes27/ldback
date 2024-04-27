@@ -41,6 +41,7 @@ jobs:
       - name: Deploy
         run: npx firebase-tools deploy
         env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           API_KEY: ${{ secrets.API_KEY }}
           AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
