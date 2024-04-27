@@ -10,15 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
 
       - name: Download dependencies
         working-directory: functions
         run: npm install
 
+      - name: Create python venv
+        working-directory: functions
+        run: python -m venv venv
+
+      - name: Install python dependencies
+        working-directory: functions
+        run: pip install -r requirements.txt
+
       - name: Deploy
         run: npx firebase-tools deploy
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           API_KEY: ${{ secrets.API_KEY }}
           AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
