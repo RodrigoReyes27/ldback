@@ -23,10 +23,6 @@ jobs:
         working-directory: functions
         run: mkdir cert && echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > cert/frida-research-firebase-adminsdk-krmnc-3f0287837c.json
 
-      - name: Download node dependencies
-        working-directory: functions
-        run: npm install
-
       - name: Download python dependencies
         working-directory: functions
         run: |
@@ -36,7 +32,7 @@ jobs:
 
       - name: Deploy cloud functions
         working-directory: functions
-        run: npx firebase-tools deploy
+        run: cd .. && npx firebase-tools deploy
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           API_KEY: ${{ secrets.API_KEY }}
@@ -46,4 +42,5 @@ jobs:
           STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
           APP_ID: ${{ secrets.APP_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
 
